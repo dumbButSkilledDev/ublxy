@@ -132,6 +132,10 @@ function macro_print(macroInfo) {
     console.log(macroInfo.args[0]);
 }
 
+function macro_alert(macroInfo) {
+    alert(macroInfo.args[0]);
+}
+
 function macro_setParseDebugLoggingStatus(macroInfo) {
     if (macroInfo.args[0] == 1) {
         console.log("[INFO] enabling parse debug logging");
@@ -158,6 +162,7 @@ function macro_launchPayloadB64(macroInfo) {
 }
 
 addMacro("print", macro_print);
+addMacro("alert", macro_alert);
 addMacro("setParseDebugLoggingStatus", macro_setParseDebugLoggingStatus);
 addMacro("evalJS", macro_evalJS);
 addMacro("newvar", macro_newvar);
