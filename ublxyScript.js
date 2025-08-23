@@ -130,6 +130,7 @@ function handleLine(line) {
 
 function macro_print(macroInfo) {
     console.log(macroInfo.args[0]);
+    alert(macroInfo.args[0]);
 }
 
 function macro_alert(macroInfo) {
