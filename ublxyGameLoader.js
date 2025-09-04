@@ -8,12 +8,7 @@ async function fetchWrap(url) {
     return resp;
 }
 
-var uglUnityConf = {
-  Module:
-    {
-       onRuntimeInitialized: function() { console.log("[UGL] were loaded bruh!") }
-    }
-};
+var uglUnityConf = {Module:{onRuntimeInitialized: function() { console.log("[UGL] were loaded bruh!") }}};
 
 var uglGameInstance;
 
