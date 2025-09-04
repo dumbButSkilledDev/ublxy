@@ -3,5 +3,10 @@
         "name": "slope",
         "loadInfo": "unity",
         "loadData": "https://cdn.jsdelivr.net/gh/dumbButSkilledDev/ublxy/data/slope/slope.json"
+    },
+    {
+        "name": "snow_rider",
+        "loadInfo": "unity",
+        "loadData": "https://cdn.jsdelivr.net/gh/dumbButSkilledDev/ublxy/data/snow_rider/snow_rider3D.json"
     }
 ]
