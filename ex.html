@@ -1,0 +1,37 @@
+<body>
+    <h1>UBLXY - TESTING STUFF</h1>
+    <button onclick="launchGameTest();">launch</button>
+    <div id="gameContainer" style="width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; position: relative; background: rgb(35, 31, 32);">
+        <canvas id="canvas" width="3440" height="1271" style="cursor: default;"></canvas>
+        <div class="logo Dark" style="display: none;"></div>
+        <div class="progress Dark" style="display: none;">
+            <div class="empty" style="width: 0%;"></div>
+            <div class="full" style="width: 100%;"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/unityloadermodule3@1.0.5/UnityLoader.js"></script>
+
+    
+
+    <script>
+        var UBCDN = "https://cdn.jsdelivr.net/gh/dumbButSkilledDev/ublxy/";
+
+        async function fetchWrap(url) {
+            var req = await fetch(url);
+            var resp = await req.json();
+            return resp;
+        }
+
+        async function launchGameTest() {
+            var jsonData = await fetchWrap(UBCDN + "games.json");
+            var game = jsonData[0];
+
+            console.log(game.name);
+            console.log(game.loadInfo);
+            console.log(game.loadData);
+
+            var gameInstance = UnityLoader.instantiate("gameContainer", game.loadData, {Module:{onRuntimeInitialized: function() {console.log("[UGL] were loaded bruh!")}}});
+        }
+    </script>
+</body>
