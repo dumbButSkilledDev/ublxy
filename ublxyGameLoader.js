@@ -13,7 +13,7 @@ var uglUnityConf = {Module:{onRuntimeInitialized: function() { console.log("[UGL
 var uglGameInstance;
 
 function launchGameUnity(jsonUrl) {
-     console.log("[UGL] actually launching game...);
+     console.log("[UGL] actually launching game...");
      uglGameInstance = UnityLoader.instantiate("gameContainer", jsonUrl, uglUnityConf);
 }
 
