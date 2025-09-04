@@ -1,7 +1,7 @@
 
 // ublxy thingy
 
-var UBCDN = "https://cdn.jsdelivr.net/gh/dumbButSkilledDev/ublxy/";
+var UBCDN = "https://cdn.jsdelivr.net/gh/dumbButSkilledDev/ublxy@latest/";
 
 async function fetchWrap(url) {
     var req = await fetch(url);
