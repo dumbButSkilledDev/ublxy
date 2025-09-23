@@ -1,0 +1,170 @@
+<body>
+    <h1>UBLXY - TESTING STUFF</h1>
+    <button onclick="launchGameTest();">launch</button>
+    <button onclick="goFullscreen();">toggle fullscreen</button>
+    <div id="gameContainer" style="width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; position: relative; background: rgb(35, 31, 32);">
+        <canvas id="canvas" width="3440" height="1271" style="cursor: default;"></canvas>
+        <div class="logo Dark" style="display: none;"></div>
+        <div class="progress Dark" style="display: none;">
+            <div class="empty" style="width: 0%;"></div>
+            <div class="full" style="width: 100%;"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/unityloadermodule3@1.0.5/UnityLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/dumbButSkilledDev/ublxy@latest/ugl.js"></script>
+
+    
+
+    <script>
+
+        function splitJsonData(jsonData) {
+            const names = [];
+            const loadInfos = [];
+            const loadDatas = [];
+
+            jsonData.forEach(item => {
+                names.push(item.name);
+                loadInfos.push(item.loadInfo);
+                loadDatas.push(item.loadData);
+            });
+
+            return { names, loadInfos, loadDatas };
+        }
+
+        function goFullscreen() {
+            uglGameInstance.SetFullscreen(1);
+        }
+
+        function launchGameTest() {
+            launchGame(0);
+        }
+
+        // UPI
+
+        let UPI_OBSERVER;
+        let ST_UPI_DOM_RELEASE = false;
+        let UPI_TEST_HOOK_UNINSTALL_STAT = true;
+        let UPI_DOM_WS = false;
+
+        function UPI_HOOK_INSTALL(fn, nfn, name) {
+            console.log("[UPI] (hook installation) installing " + name + " hook....");
+            fn = nfn;
+        }
+
+        function UPI_DOM_RELEASE() {
+            ST_UPI_DOM_RELEASE = true;
+        }
+
+        function UPI_DOM_UNRELEASE() {
+            ST_UPI_DOM_RELEASE = false;
+        }
+
+        function UPI_EVAL_HOOK(dat) {
+            console.log("[UPI] (eval hook) eval attempted (we caught it and blocked the attempt) with data: " + dat);
+        }
+
+        function UPI_DW_HOOK(dat) {
+            console.log("[UPI] (document write hook) document.write called. (blocked ofc)");
+        }
+
+        function UPI_DOM_MUTATION_CB(mutationList, observer) {
+            if (!ST_UPI_DOM_RELEASE) {
+                console.log("[UPI] (dom mutation) DOM CHANGE HAS HAPPENED!");
+                if (UPI_DOM_WS) {
+                    console.log("[UPI] (dom mutation) disabling further dom changes....");
+                    window.stop();
+                }
+            }
+        }
+
+        function UPI_DOM_MUTATION_DISCONNECT_HOOK() {
+            console.log("[UPI] (dom mutation observer tamper prevention) dom mutation observer disconnect called. call blocked.");
+        }
+
+        function UPI_DOM_MUTATION_DISCONNECT_HOOK_INSTALL() {
+            console.log("[UPI] (hook installation) installing disconnect hook...");
+            UPI_OBSERVER.disconnect = UPI_DOM_MUTATION_DISCONNECT_HOOK;
+        }
+
+        function UPI_DOM_CHANGE_MUTATION_INSTALL() {
+            const targetNode = document.documentElement;
+            const config = {
+                attributes: true,        // Watch for attribute changes
+                childList: true,         // Watch for adding/removing child nodes
+                subtree: true,           // Watch all descendants, not just direct children
+                characterData: true,     // Watch for text content changes
+                attributeOldValue: true, // Record previous attribute values
+                characterDataOldValue: true // Record previous text values
+            };
+
+            console.log("[UPI] (mutation observer installation) installing observer...");
+            UPI_OBSERVER = new MutationObserver(UPI_DOM_MUTATION_CB);
+
+            UPI_OBSERVER.observe(targetNode, config);
+        }
+
+
+        function UPI_INSTALL_HOOKS() {
+            console.log("[UPI] (hook installation) installing hooks...");
+            eval = UPI_EVAL_HOOK;
+            window.eval = UPI_EVAL_HOOK;
+            UPI_OBSERVER.disconnect = UPI_DOM_MUTATION_DISCONNECT_HOOK;
+            document.write = UPI_DW_HOOK;
+            window.document.write = UPI_DW_HOOK;
+        }
+
+        function UPI_TEST_LOG(dat) {
+            console.log("[UPI] (testing) " + dat);
+        }
+
+        function UPI_TEST() {
+            UPI_TEST_LOG("testing eval and window.eval hook...");
+            eval("1+1");
+            window.eval("1+1");
+
+            UPI_TEST_LOG("testing observer disconnect hook...");
+            UPI_OBSERVER.disconnect();
+
+            UPI_TEST_LOG("testing document.write and window.document.write hook (unreleased)...");
+            document.write("test");
+            window.document.write("test");
+        }
+
+        function UPI_NOUSE_HOOK() {
+            console.log("[UPI] (nouse hook) something tried to call a test func!")
+        }
+
+        function UPI_TEST_HOOK_UNINSTALL() {
+            console.log("[UPI] (post hook installation) installing unused test function hooks for functions that could be exploited...");
+            UPI_DOM_RELEASE = UPI_NOUSE_HOOK;
+            UPI_DOM_UNRELEASE = UPI_NOUSE_HOOK;
+            console.log("[UPI] (post hook installation) unused hook installation complete.")
+        }
+
+        function UPI_TEST_HOOK_FLAG_NO_UNINSTALL_EN() {
+            UPI_TEST_HOOK_UNINSTALL_STAT = false;
+        }
+
+        function UPI_DOM_WS_EN() {
+            UPI_DOM_WS = true;
+        }
+
+        function UPI_INSTALL() {
+            UPI_DOM_CHANGE_MUTATION_INSTALL();
+            UPI_INSTALL_HOOKS();
+            console.log("[UPI] (hook installation) hook installation complete!");
+            if (UPI_TEST_HOOK_UNINSTALL_STAT) {
+                UPI_TEST_HOOK_UNINSTALL();
+            }
+            console.log("[UPI] (post hook installation) doing hook tests... (ignore next messages)!");
+            UPI_TEST();
+            console.log("[UPI] (post hook installation) testing complete. do not ignore next messages.")
+        }
+
+        UPI_TEST_HOOK_FLAG_NO_UNINSTALL_EN();
+        //UPI_DOM_WS_EN();
+        UPI_INSTALL();
+
+    </script>
+</body>
