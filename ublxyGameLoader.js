@@ -17,6 +17,11 @@ function launchGameUnity(jsonUrl) {
      uglGameInstance = UnityLoader.instantiate("gameContainer", jsonUrl, uglUnityConf);
 }
 
+function launchGameHtml(frameID, dat) {
+    console.log("[UGL] actually launching game...");
+    document.getElementById(frameID).setAttribute("srcdoc", dat);
+}
+
 async function launchGame(index) {
     var gameList = await fetchWrap(UBCDN + "games.json");
     console.log("[UGL] launching game of index: " + index);
@@ -29,5 +34,7 @@ async function launchGame(index) {
 
     if (game.loadInfo == "unity") {
         launchGameUnity(game.loadData);
+    } else if (game.loadInfo == "html") {
+        launchGameHtml("ugl_frame", game.loadData);
     }
 }
