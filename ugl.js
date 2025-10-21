@@ -27,6 +27,8 @@ async function launchGame(index) {
     console.log("[UGL] launching game of index: " + index);
 
     var game = gameList[index];
+    console.log(gameList);
+    console.log(game);
     console.log("[UGL] game name: " + game.name);
     console.log("[UGL] load info: " + game.loadInfo);
     console.log("[UGL] load data: " + game.loadData);
