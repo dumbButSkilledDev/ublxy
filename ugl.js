@@ -8,6 +8,17 @@ async function fetchWrap(url) {
     return resp;
 }
 
+async function fwrap(url) {
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    if (!res.ok) throw new Error(`HTTP ${res.status} - ${res.statusText}`);
+    const html = await res.text();
+    return html;
+  } catch (err) {
+    return `<pre style="color:red;">Fetch error: ${err.message}</pre>`;
+  }
+}
+
 var uglUnityConf = {Module:{onRuntimeInitialized: function() { console.log("[UGL] were loaded bruh!") }}};
 
 var uglGameInstance;
@@ -38,5 +49,9 @@ async function launchGame(index) {
         launchGameUnity(game.loadData);
     } else if (game.loadInfo == "html") {
         launchGameHtml("ugl_frame", game.loadData);
+    } else if (game.loadInfo == "html_fetch") {
+        (async () => {
+            launchGameHtml("ugl_frame", fwrap(game.loadData));
+        })();
     }
 }
