@@ -12,6 +12,6 @@
     {
         "name": "minecraft",
         "loadInfo": "html_fetch",
-        "loadData": "https://cdn.jsdelivr.net/gh/dumbButSkilledDev/ublxy@master/data/eaglercraft/eaglercraft.html"
+        "loadData": "https://cdn.jsdelivr.net/gh/dumbButSkilledDev/ublxy@cdn3/data/eaglercraft/eaglercraft.html"
     }
 ]
